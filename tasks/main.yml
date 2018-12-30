@@ -1,3 +1,2 @@
 ---
-  
-  - include_tasks: tasks_vestacp.yml 
+    - include_tasks: tasks_vestacp.yml

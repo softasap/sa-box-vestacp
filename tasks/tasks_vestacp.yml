@@ -9,16 +9,17 @@
     become: yes
     tags:
       - vestacp
+      - skip_ansible_lint
 
   - name: Vesta CP | get installer
     get_url: url=http://vestacp.com/pub/vst-install.sh dest=/tmp/vst-install.sh mode="u=rwx,g=rx,o=rx"
     when: cp_installed is failed
-    become: yes    
+    become: yes
     tags:
       - vestacp
 
   - name: Vesta CP | install
-    shell: > 
+    shell: >
         /tmp/vst-install.sh
         --apache {{ 'yes' if option_apache else 'no' }}
         --nginx {{ 'yes' if option_nginx else 'no' }}
@@ -42,9 +43,10 @@
         --hostname {{ vesta_hostname }}
         --email {{ vesta_email }}
         --password {{ vesta_password }}
-        --force  
+        --force
     args:
-      creates: /root/.vestainstalled      
+      creates: /root/.vestainstalled
     become: yes
     tags:
       - vestacp
+      - skip_ansible_lint      
