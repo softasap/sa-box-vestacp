@@ -1,0 +1,51 @@
+---
+# defaults file for sa-box-vestacp
+
+role_dir: "{{ role_path }}"
+
+# Set hostname
+vesta_hostname: "{{ inventory_hostname }}"         
+# Set admin email
+vesta_email: "override@domain.local"
+# Set admin password      
+vesta_password: "overrideme"
+
+#http://vestacp.com/pub/vst-install-ubuntu.sh
+
+#  -a, --apache            Install Apache        [yes|no]  default: yes
+option_apache: yes
+#  -n, --nginx             Install Nginx         [yes|no]  default: yes
+option_nginx: yes
+#  -w, --phpfpm            Install PHP-FPM       [yes|no]  default: no
+option_phpfpm: yes
+#  -v, --vsftpd            Install Vsftpd        [yes|no]  default: yes
+option_vsftpd: yes
+#  -j, --proftpd           Install ProFTPD       [yes|no]  default: no
+option_proftpd: no
+#  -k, --named             Install Bind          [yes|no]  default: yes
+option_named: yes
+#  -m, --mysql             Install MySQL         [yes|no]  default: yes
+option_mysql: yes
+#  -g, --postgresql        Install PostgreSQL    [yes|no]  default: no
+option_postgresql: no
+#  -d, --mongodb           Install MongoDB       [yes|no]  unsupported
+option_mongodb: no
+#  -x, --exim              Install Exim          [yes|no]  default: yes
+option_exim: yes
+#  -z, --dovecot           Install Dovecot       [yes|no]  default: yes
+option_dovecot: yes
+#  -c, --clamav            Install ClamAV        [yes|no]  default: yes
+option_clamav: yes
+#  -t, --spamassassin      Install SpamAssassin  [yes|no]  default: yes
+option_spamassassin: yes
+#  -i, --iptables          Install Iptables      [yes|no]  default: yes
+option_iptables: yes
+#  -b, --fail2ban          Install Fail2ban      [yes|no]  default: yes
+option_fail2ban: yes
+#  -o, --softaculous       Install Softaculous   [yes|no]  default: yes
+option_softaculous: yes
+#  -q, --quota             Filesystem Quota      [yes|no]  default: no
+option_quota: no
+#  -l, --lang              Default language                default: en
+vesta_lang: en
+

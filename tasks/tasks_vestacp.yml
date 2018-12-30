@@ -1,0 +1,54 @@
+---
+# tasks file for sa-box-vestacp
+
+  - name: Vesta CP | Check installed
+    shell: test -e /root/.vestainstalled
+    changed_when: False
+    ignore_errors: true
+    register: cp_installed
+    become: yes
+    tags:
+      - vestacp
+
+  - name: Vesta CP | get installer
+    get_url: url=http://vestacp.com/pub/vst-install.sh dest=/tmp/vst-install.sh mode=0400
+    when: cp_installed is failed
+    become: yes    
+    tags:
+      - vestacp
+
+  - name: Vesta CP | ensure /etc/issue if missing
+    shell: "test ! -s /etc/issue && lsb_release -d | cut -f2 > /etc/issue"
+    when: cp_installed is failed
+    become: yes
+    tags:
+      - vestacp
+
+  - name: Vesta CP | install
+    shell: > 
+        /tmp/vst-install.sh
+        --apache {{ option_apache }}
+        --nginx {{ option_nginx }}
+        --phpfpm {{ option_phpfpm }}
+        --vsftpd {{ option_vsftpd }}
+        --proftpd {{ option_proftpd }}
+        --named {{ option_named }}
+        --mysql {{ option_mysql }}
+        --postgresql {{ option_postgresql }}
+        --mongodb {{ option_mongodb }}
+        --exim {{ option_exim }}
+        --dovecot {{ option_dovecot }}
+        --clamav {{ option_clamav }}
+        --spamassassin {{ option_spamassassin }}
+        --iptables {{ option_iptables }}
+        --fail2ban {{ option_fail2ban }}
+        --softaculous {{ option_softaculous }}
+        --quota {{ option_quota }}
+        --lang {{ vesta_lang }}
+        --interactive yes
+        --hostname {{ vesta_hostname }}
+        --email {{ vesta_email }}
+        --password {{ vesta_password }}
+        --force
+    args:
+      creates: /root/.vestainstalled      
