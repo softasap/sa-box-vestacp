@@ -11,44 +11,40 @@
       - vestacp
 
   - name: Vesta CP | get installer
-    get_url: url=http://vestacp.com/pub/vst-install.sh dest=/tmp/vst-install.sh mode=0400
+    get_url: url=http://vestacp.com/pub/vst-install.sh dest=/tmp/vst-install.sh mode="u=rwx,g=rx,o=rx"
     when: cp_installed is failed
     become: yes    
-    tags:
-      - vestacp
-
-  - name: Vesta CP | ensure /etc/issue if missing
-    shell: "test ! -s /etc/issue && lsb_release -d | cut -f2 > /etc/issue"
-    when: cp_installed is failed
-    become: yes
     tags:
       - vestacp
 
   - name: Vesta CP | install
     shell: > 
         /tmp/vst-install.sh
-        --apache {{ option_apache }}
-        --nginx {{ option_nginx }}
-        --phpfpm {{ option_phpfpm }}
-        --vsftpd {{ option_vsftpd }}
-        --proftpd {{ option_proftpd }}
-        --named {{ option_named }}
-        --mysql {{ option_mysql }}
-        --postgresql {{ option_postgresql }}
-        --mongodb {{ option_mongodb }}
-        --exim {{ option_exim }}
-        --dovecot {{ option_dovecot }}
-        --clamav {{ option_clamav }}
-        --spamassassin {{ option_spamassassin }}
-        --iptables {{ option_iptables }}
-        --fail2ban {{ option_fail2ban }}
-        --softaculous {{ option_softaculous }}
-        --quota {{ option_quota }}
+        --apache {{ 'yes' if option_apache else 'no' }}
+        --nginx {{ 'yes' if option_nginx else 'no' }}
+        --phpfpm {{ 'yes' if option_phpfpm else 'no' }}
+        --vsftpd {{ 'yes' if option_vsftpd else 'no' }}
+        --proftpd {{ 'yes' if option_proftpd else 'no' }}
+        --named {{ 'yes' if option_named else 'no' }}
+        --mysql {{ 'yes' if option_mysql else 'no' }}
+        --postgresql {{ 'yes' if option_postgresql else 'no' }}
+        --mongodb {{ 'yes' if option_mongodb else 'no' }}
+        --exim {{ 'yes' if option_exim else 'no' }}
+        --dovecot {{ 'yes' if option_dovecot else 'no' }}
+        --clamav {{ 'yes' if option_clamav else 'no' }}
+        --spamassassin {{ 'yes' if option_spamassassin else 'no' }}
+        --iptables {{ 'yes' if option_iptables else 'no' }}
+        --fail2ban {{ 'yes' if option_fail2ban else 'no' }}
+        --softaculous {{ 'yes' if option_softaculous else 'no' }}
+        --quota {{ 'yes' if option_quota else 'no' }}
         --lang {{ vesta_lang }}
-        --interactive yes
+        --interactive no
         --hostname {{ vesta_hostname }}
         --email {{ vesta_email }}
         --password {{ vesta_password }}
-        --force
+        --force  
     args:
       creates: /root/.vestainstalled      
+    become: yes
+    tags:
+      - vestacp

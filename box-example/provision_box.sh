@@ -1,5 +1,9 @@
+#!/bin/bash
 # Static parameters
-WORKSPACE=./
+WORKSPACE=$(
+  cd $(dirname "$0")
+  pwd
+)
 BOX_PLAYBOOK=$WORKSPACE/box.yml
 BOX_NAME=seventeen
 BOX_ADDRESS=188.166.93.67
