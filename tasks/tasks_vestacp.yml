@@ -49,4 +49,4 @@
     become: yes
     tags:
       - vestacp
-      - skip_ansible_lint      
+      - skip_ansible_lint
