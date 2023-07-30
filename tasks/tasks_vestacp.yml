@@ -2,18 +2,14 @@
 # tasks file for sa-box-vestacp
 
   - name: Vesta CP | Check installed
-    shell: test -e /root/.vestainstalled
-    changed_when: False
-    ignore_errors: true
-    register: cp_installed
-    become: yes
+    service_facts:
     tags:
       - vestacp
       - skip_ansible_lint
 
   - name: Vesta CP | get installer
     get_url: url=http://vestacp.com/pub/vst-install.sh dest=/tmp/vst-install.sh mode="u=rwx,g=rx,o=rx"
-    when: cp_installed is failed
+    when: "'vesta' not in services"
     become: yes
     tags:
       - vestacp
@@ -44,8 +40,7 @@
         --email {{ vesta_email }}
         --password {{ vesta_password }}
         --force
-    args:
-      creates: /root/.vestainstalled
+    when: "'vesta' not in services"
     become: yes
     tags:
       - vestacp
